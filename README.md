@@ -3,9 +3,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Steps for Checking Out & Running on localhost
 
 1. git clone [frontend repo](https://github.com/skymathclub/skymath-frontend.git)
-2. cd skymath-frontend
-3. npm install react
-4. npm start
+1. `cd skymath-frontend`
+1. `copy .env_sample .env` and insert all applicable settings.
+1. `npm install react`
+1. `npm start`
 
 ## Available Scripts
 

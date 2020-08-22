@@ -1,8 +1,10 @@
 import React from 'react';
 import logo from './logo.svg';
 import { Grid, Button } from '@material-ui/core';
-import { GoogleLogin } from 'react-google-login'
+import { GoogleLogin } from 'react-google-login';
 import './App.css';
+
+const google_client_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 const onGoogleSignIn = (profile) => {
   console.log(profile);
@@ -15,7 +17,7 @@ function App() {
       <Grid item xs />
       <Grid item xs style={{display: 'flex', justifyContent: 'center'}} >
         <GoogleLogin
-        clientId='241162360225-ta4o1kbhao5m0fu3mbbhdao1htlm3r3d.apps.googleusercontent.com'
+        clientId={google_client_id}
         buttonText='Log In'
         onSuccess={onGoogleSignIn}
         onFailure={onGoogleSignIn}
