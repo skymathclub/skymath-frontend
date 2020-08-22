@@ -1,5 +1,12 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Steps for Checking Out & Running on localhost
+
+1. git clone [frontend repo](https://github.com/skymathclub/skymath-frontend.git)
+2. cd skymath-frontend
+3. npm install react
+4. npm start
+
 ## Available Scripts
 
 In the project directory, you can run:
