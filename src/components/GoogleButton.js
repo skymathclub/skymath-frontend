@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { Grid, Button } from '@material-ui/core';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 
 const google_client_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
@@ -10,8 +9,9 @@ class GoogleButton extends Component {
 
         super(props);
         this.state = {
-            isLoggedIn: false
-
+            isLoggedIn: false,
+            name: "",
+            email: ""
         }
 
         this.onGoogleLogInFailure = this.onGoogleLogInFailure.bind(this);
@@ -23,7 +23,9 @@ class GoogleButton extends Component {
     onGoogleLogOutSuccess = (res) => {
         console.log('Log Out Success');
         this.setState(state => ({
-            isLoggedIn: false
+            isLoggedIn: false,
+            name: "",
+            email: ""
         }))
     }
 
@@ -34,8 +36,10 @@ class GoogleButton extends Component {
     onGoogleLogInSuccess = (profile) => {
         console.log(profile);
         this.setState(state => ({
-            isLoggedIn: true
-        }))
+            isLoggedIn: true,
+            name:profile.profileObj.name,
+            email:profile.profileObj.email
+        }));
     }
 
     onGoogleLogInFailure = (res) => {
@@ -44,15 +48,16 @@ class GoogleButton extends Component {
 
     render () {
         return (
-            <div>
-                {
-                    this.state.isLoggedIn ?
+            
+            this.state.isLoggedIn ?
+            <div className="App">
+                    <h6>Welcome {this.state.name} ({this.state.email})</h6>
                     <GoogleLogout
                         clientId={google_client_id}
                         buttonText='Log Out'
                         onLogoutSuccess={this.onGoogleLogOutSuccess}
                         onFailure={this.onGoogleLogOutFailure}
-                        ></GoogleLogout> : <GoogleLogin
+                        ></GoogleLogout></div>:<GoogleLogin
                         clientId={google_client_id}
                         buttonText='Log In'
                         onSuccess={this.onGoogleLogInSuccess}
@@ -60,10 +65,7 @@ class GoogleButton extends Component {
                         cookiePolicy={'single_host_origin'}
                         responseType='code,token'
                         />
-
-                }
-            </div>
-        )
+            )
     }
 
 }
