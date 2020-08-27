@@ -1,72 +1,57 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import dotenv from 'dotenv'
 
+dotenv.config();
 const google_client_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+console.log(process.env);
 
-class GoogleButton extends Component {
+function GoogleButton(props) {
+
+    const [isLoggedIn, setisLoggedIn] = useState(false)
+    const [name, setname] = useState('');
+    const [email, setemail] = useState('');
+
     
-    constructor (props) {
-
-        super(props);
-        this.state = {
-            isLoggedIn: false,
-            name: "",
-            email: ""
-        }
-
-        this.onGoogleLogInFailure = this.onGoogleLogInFailure.bind(this);
-        this.onGoogleLogInSuccess = this.onGoogleLogInSuccess.bind(this);
-        this.onGoogleLogOutFailure = this.onGoogleLogOutFailure.bind(this);
-        this.onGoogleLogOutSuccess = this.onGoogleLogOutSuccess.bind(this);
-    }
-    
-    onGoogleLogOutSuccess = (res) => {
+    const onGoogleLogOutSuccess = (res) => {
         console.log('Log Out Success');
-        this.setState(state => ({
-            isLoggedIn: false,
-            name: "",
-            email: ""
-        }))
+        setisLoggedIn(false);
+        setname('');
+        setemail('');
     }
 
-    onGoogleLogOutFailure = (res) => {
+    const onGoogleLogOutFailure = (res) => {
         console.log('Log Out Failed:', res);
     }
 
-    onGoogleLogInSuccess = (profile) => {
+    const onGoogleLogInSuccess = (profile) => {
         console.log(profile);
-        this.setState(state => ({
-            isLoggedIn: true,
-            name:profile.profileObj.name,
-            email:profile.profileObj.email
-        }));
+            setisLoggedIn(true);
+            setname(profile.profileObj.name);
+            setemail(profile.profileObj.email);
     }
 
-    onGoogleLogInFailure = (res) => {
+    const onGoogleLogInFailure = (res) => {
         console.log('Log In Failed:', res);
     }
-
-    render () {
-        return (
-            
-            this.state.isLoggedIn ?
+    return (
+            isLoggedIn ?
             <div className="App">
-                    <h6>Welcome {this.state.name} ({this.state.email})</h6>
+                    <h6>Welcome {name} ({email})</h6>
                     <GoogleLogout
                         clientId={google_client_id}
                         buttonText='Log Out'
-                        onLogoutSuccess={this.onGoogleLogOutSuccess}
-                        onFailure={this.onGoogleLogOutFailure}
+                        onLogoutSuccess={onGoogleLogOutSuccess}
+                        onFailure={onGoogleLogOutFailure}
                         ></GoogleLogout></div>:<GoogleLogin
                         clientId={google_client_id}
                         buttonText='Log In'
-                        onSuccess={this.onGoogleLogInSuccess}
-                        onFailure={this.onGoogleLogInFailure}
+                        onSuccess={onGoogleLogInSuccess}
+                        onFailure={onGoogleLogInFailure}
                         cookiePolicy={'single_host_origin'}
                         responseType='code,token'
                         />
-            )
-    }
+    )
 
 }
 
